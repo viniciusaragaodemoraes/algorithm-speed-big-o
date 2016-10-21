@@ -5,13 +5,13 @@
 #include <locale.h>
 #define MAX 10000
 
-/* BubbleSort */
+/* InsertSort */
 
 using namespace std::chrono;
 
 void Random();
 void Chrono();
-void BubbleSort();
+void InsertSort();
 
 int random[MAX]; // Variavel global.
 
@@ -28,7 +28,7 @@ void Random(){ // Popula a variavel global "random" com 1000 numeros de 1 ate 10
 
     for (int i = 1; i < MAX; i++){
         random[i] = 1+ rand() % MAX;
-        std::cout << random[i] << ",";
+        std::cout<< random[i] << ",";
     }
     
     std::cout << std::endl;
@@ -39,38 +39,37 @@ void Chrono(){ // Calcula o tempo de execução do programa
 
 	high_resolution_clock::time_point t1 = high_resolution_clock::now(); // Pega o tempo atual da maquina
 	
-	Random(); // Chama o metodo para popular a variavel global
-	BubbleSort(); // Chama o metodo sorted.
+	Random();
+	InsertSort();
 
 	high_resolution_clock::time_point t2 = high_resolution_clock::now(); // Pega o tempo pós execução
 
 	duration<double> time_span = duration_cast<duration<double>>(t2 - t1); // Subtrai os valores para obter o tempo de execução
 
 	std::cout << std::endl;
-	std::cout << "Tempo de execução no BubbleSort: " << time_span.count() << " em segundos.";
+	std::cout << "Tempo de execução no InsertSort: " << time_span.count() << " em segundos.";
 	std::cout << std::endl;
 
 }
 
-void BubbleSort(){
+void InsertSort(){
 	
-	int d, swap;
- 	
-	for (int c = 0 ; c < ( MAX - 1 ); c++){
-    	for (d = 0 ; d < MAX - c - 1; d++){
-      		if (random[d] > random[d + 1]) {
-        	swap = random[d];
-        	random[d] = random[d + 1];
-       		random[d + 1] = swap;
-      		}
-    	}
-  	}
- 
-	std::cout<<"Iniciando o metodo BubbleSort e organizado em ordem crescente: "<<std::endl;
+	int chave;
 
-	for (int c = 0 ; c < MAX ; c++ ){
-    	std::cout << random[c] << ",";
+	for(int j=1 ; j < MAX ; j++) { 
+		chave = random[j]; 
+		int i = j-1; 
+		while(i >= 0 && random[i] > chave){
+			random[i + 1] = random[i];
+			i = i - 1;
+		}
+		random[i + 1] = chave;
+	}
+
+	std::cout<<"Iniciando metodo InsertSort e organizado em ordem crescente: "<<std::endl;
+
+	for(int i=0; i<MAX; i++){
+		std::cout<< random[i] << ",";
 	}
 	
 }
-
